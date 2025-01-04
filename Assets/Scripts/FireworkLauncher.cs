@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class FireworkLauncher : MonoBehaviour
 {
@@ -10,8 +8,15 @@ public class FireworkLauncher : MonoBehaviour
     private ParticleSystem m_fireworks;
     
     [SerializeField]
-    private TMP_Text m_text;
+    private Image m_image;
+    
+    [SerializeField]
+    private Gradient m_gradient;
+    
     private float m_count = 0;
+    
+    private float m_currentProgress = 0f;
+    private const int DECAY = 1;
     private void Start()
     {
         m_fireworks.Pause();
@@ -23,14 +28,21 @@ public class FireworkLauncher : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            int rand = Random.Range(0, 100);
-            m_fireworks.Emit(rand < 10 ? 20 : 1);
-            m_count+=0.05f;
-            // m_fireworks.Play(true);
+            int l_rand = Random.Range(0, 100);
+            m_fireworks.Emit( 5 );
+            m_count+=0.1f;
         }
+
+        float l_progress = Mathf.Lerp(0f, 1f, m_count);
         
-        m_text.color = Color.Lerp(new Color(0f, 0f, 0f, 0.6f), new Color(1f, 1f, 1f, 1f), m_count);
+        m_currentProgress = ExpDecay(m_currentProgress, l_progress);
+        m_image.color = m_gradient.Evaluate(m_currentProgress);
         
      
+    }
+
+    private float ExpDecay(float p_a, float p_b)
+    {
+        return p_b + (p_a - p_b) * Mathf.Exp(-DECAY * Time.deltaTime);
     }
 }

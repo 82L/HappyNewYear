@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4626973354908203788}
   - component: {fileID: 8578850966253984328}
   m_Layer: 0
-  m_Name: FireworksEmitter
+  m_Name: FireworksEmitter 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
